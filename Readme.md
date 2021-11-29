@@ -1,1 +1,2 @@
 Hello World for Python
+个人学习python记录，根据jackfrued的重0开始学python
