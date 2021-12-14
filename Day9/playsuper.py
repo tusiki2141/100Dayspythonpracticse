@@ -55,7 +55,7 @@ class Ultraman(Fighter):
             self.attack(other)
             return False
     
-    def magic_attack(self.others):
+    def magic_attack(self,others):
         """魔法攻击"""
         if self.mp>=20:
             self.mp-=20
@@ -81,35 +81,69 @@ class Moster(Fighter):
 
     __slots__=('_name','_hp')
 
-    def __init__(self, name, hp):
-        super().__init__(name,hp)
-    
     def attack(self,other):
         other.hp-=randint(10,20)
     
-    def __str__(self) -> str:
+    def __str__(self):
         return '~~~%s小怪兽~~~\n'%self.name +\
             '生命值：%d\n'%self._hp
     
-    def is_any_alive(mosters):
-        for moster in mosters:
-            if moster.alive>0:
-                return True
-        return False
+def is_any_alive(mosters):
+    for moster in mosters:
+        if moster.alive>0:
+            return True
+    return False
     
-    def selec_alive_one(mosters):
-        mosters_len=len(mosters)
-        while True:
-            index=randrange(mosters_len)
-            moster=mosters[index]
-            if moster.alive>0:
-                return moster
+def select_alive_one(mosters):
+    mosters_len=len(mosters)
+    while True:
+        index=randrange(mosters_len)
+        moster=mosters[index]
+        if moster.alive>0:
+            return moster
     
-    def display_info(ultraman,mosters):
-        """显示凹凸曼和小怪兽信息"""
-        print(ultraman)
-        for moster in mosters:
-            print(moster,end='')
-    
+def display_info(ultraman,mosters):
+    """显示凹凸曼和小怪兽信息"""
+    print(ultraman)
+    for moster in mosters:
+        print(moster,end='')
 
+def main():
+    u=Ultraman('A',1000,120)
+    m1=Moster('B',250)
+    m2=Moster('C',500)
+    m3=Moster('D',750)
+    ms=[m1,m2,m3]
+    fight_round=1
+    while u.alive and is_any_alive(ms):
+        print('=============第%02d回合============'%fight_round)
+        m=select_alive_one(ms)    ##选中一只怪兽
+        skill=randint(1,10)
+        if skill<=6:
+            print('%s对%s使用普通攻击'%(u.name,m.name))
+            u.attack(m)
+            print('%s的魔法值恢复了%d点'%(u.name,u.resume()))
+        elif skill<=9:
+            if u.magic_attack(ms):
+                print('%s对%s使用魔法攻击'%(u.name,m.name))
+            else:
+                print('%s使用魔法攻击失败'%u.name)
+        else:
+            if u.huge_attack(m):
+                print('%s使用了必杀技'%u.name)
+            else:
+                print('%s使用了普通打击'%u.name)
+                print('%s魔法值恢复了%d'%(u.name,u.resume()))
+        if m.alive>0:
+            print('%s反击了%s'%(m.name,u.name))
+            m.attack(u)
+        display_info(u,ms)
+        fight_round+=1
+    print('\n================战斗结束！==========')
+    if u.alive>0:
+        print('%s凹凸曼胜利了'%u.name)
+    else:
+        print('小怪兽胜利了')
+if __name__=='__main__':
+    main()
     
