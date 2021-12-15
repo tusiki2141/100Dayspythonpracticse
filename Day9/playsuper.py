@@ -4,7 +4,7 @@ from random import randint,randrange
 
 class Fighter(object,metaclass=ABCMeta):
     """战斗者"""
-    __slots__=('name','hp')
+    __slots__=('_name','_hp')
 
     def __init__(self,name,hp):
         """初始化方法"""
@@ -57,8 +57,8 @@ class Ultraman(Fighter):
     
     def magic_attack(self,others):
         """魔法攻击"""
-        if self.mp>=20:
-            self.mp-=20
+        if self._mp>=20:
+            self._mp-=20
             for temp in others:
                 if temp.alive:
                     temp.hp-=randint(10,15)
@@ -69,7 +69,7 @@ class Ultraman(Fighter):
     def resume(self):
         """恢复魔法值"""
         incr_point=randint(1,10)
-        self.mp+=incr_point
+        self._mp+=incr_point
         return incr_point
 
     def __str__(self):
