@@ -9,15 +9,16 @@ def main():
     # 设置当前窗口的标题
     pygame.display.set_caption('大球吃小球')
     # 设置窗口背景色
+    x,y=50,50
     screen.fill((242,242,242))
     # 绘制一个圆(参数分别是: 屏幕, 颜色, 圆心位置, 半径, 0表示填充圆)
     # pygame.draw.circle(screen,(255,0,0,),(100,100),30,0)
     # 通过指定的文件名加载图像
-    ball_image = pygame.image.load(r'D:\100Dayspythonpracticse\Day10\ball.jpg')
+    #ball_image = pygame.image.load(r'D:\100Dayspythonpracticse\Day10\ball.jpg')
     # 在窗口上渲染图像
-    screen.blit(ball_image, (50, 50))
+    #screen.blit(ball_image, (50, 50))
 
-    pygame.display.flip()
+    #pygame.display.flip()
 
     running = True
     # 开启一个事件循环处理发生的事件
@@ -26,6 +27,13 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
+        screen.fill((255,255,255))
+        pygame.draw.circle(screen,(255,0,0,),(x,y),30,0)
+        pygame.display.flip()
+        #每隔50毫秒就改变小球的位置再刷新窗口
+        pygame.time.delay(50)
+        x,y=x+5,y+5
+
 
 
 if __name__ == '__main__':
